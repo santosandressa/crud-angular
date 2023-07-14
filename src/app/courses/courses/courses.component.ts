@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { catchError, Observable, of } from 'rxjs';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { Course } from 'src/app/shared/models/course.model';
+import { CoursesService } from 'src/app/shared/services/courses.service';
 
 @Component({
   selector: 'app-courses',
@@ -7,19 +13,34 @@ import { Course } from 'src/app/shared/models/course.model';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
 
-  courses: Course[] = [
-    {
-      _id: '1',
-      name: 'Angular',
-      category: 'Front-end'
-    }
-  ];
+  courses$: Observable<Course[]>;
   displayedColumns = ['name', 'category'];
 
-  constructor() { }
+  constructor(
+    private courseService: CoursesService,
+    public dialog: MatDialog
+  ) {
+    this.courses$ = this.courseService.list()
+      .pipe(
+        catchError(error => {
+          this.onError('Erro ao carregar cursos');
+          return of([]);
+        })
+      );
+  }
 
   ngOnInit(): void {
+
+  }
+
+  onError(errorMsg: string) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg
+    });
   }
 
 }
