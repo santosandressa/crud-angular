@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoursesService } from 'src/app/shared/services/courses.service';
 
@@ -9,8 +9,13 @@ import { CoursesService } from 'src/app/shared/services/courses.service';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss'],
 })
-export class CourseFormComponent {
-  form!: FormGroup;
+export class CourseFormComponent implements OnInit {
+
+  form = this.fb.group({
+    name: new FormControl('', {nonNullable: true}),
+    category: new FormControl('', {nonNullable: true}),
+  });
+
   categories = [null, 'front-end', 'back-end', 'dev-ops', 'mobile'];
 
   constructor(
@@ -18,12 +23,9 @@ export class CourseFormComponent {
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location
-  ) {
-    this.form = this.fb.group({
-      name: [null],
-      category: [null],
-    });
-  }
+  ) {}
+
+  ngOnInit(): void {}
 
   onSubmit() {
     this.service.save(this.form.value).subscribe({
