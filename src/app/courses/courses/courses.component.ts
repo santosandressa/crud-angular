@@ -14,6 +14,7 @@ import { CoursesService } from 'src/app/shared/services/courses.service';
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
+  
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
@@ -44,7 +45,6 @@ export class CoursesComponent implements OnInit {
   }
 
   onAdd() {
-    console.log('clicked!!!');
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 }
