@@ -9,6 +9,7 @@ import { Course } from 'src/app/shared/models/course.model';
 export class CoursesListComponent {
   @Input() courses: Course[] = [];
   @Output() add = new EventEmitter(false);
+  @Output() edit = new EventEmitter(false);
 
   readonly displayedColumns = ['name', 'category', 'add'];
 
@@ -17,5 +18,10 @@ export class CoursesListComponent {
   onAdd() {
     console.log('clicked!!!');
     this.add.emit(true);
+  }
+
+  onEdit(course: Course) {
+     console.log('clicked!!!');
+    this.edit.emit(course);
   }
 }
