@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from 'src/app/shared/models/course.model';
@@ -14,15 +14,22 @@ import { CoursesService } from 'src/app/shared/services/courses.service';
 export class CourseFormComponent implements OnInit {
 
   form = this.fb.group({
-    _id: new FormControl('', {nonNullable: true}),
-    name: new FormControl('', {nonNullable: true}),
-    category: new FormControl('', {nonNullable: true}),
+    _id: [''],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(100)
+      ],
+    ],
+    category: ['', [Validators.required]],
   });
 
   categories = [null, 'front-end', 'back-end', 'dev-ops', 'mobile'];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location,
@@ -32,7 +39,7 @@ export class CourseFormComponent implements OnInit {
   ngOnInit(): void {
     const course: Course = this.route.snapshot.data['course'];
     this.form.setValue({
-       _id: course._id,
+      _id: course._id,
       name: course.name,
       category: course.category,
     });
@@ -47,6 +54,28 @@ export class CourseFormComponent implements OnInit {
 
   onCancel() {
     this.location.back();
+  }
+
+  getErrorMessage(fieldName: string) {
+    const field = this.form.get(fieldName);
+
+    if (field?.hasError('required')) {
+      return 'Campo Obrigatório';
+    }
+
+    if (field?.hasError('minlength')) {
+      const requiredLength = field.errors ? field.errors['minlength'].requiredLength : 5;
+
+      return `Deve ter no mínimo ${requiredLength} caracteres`;
+    }
+
+    if (field?.hasError('maxlength')) {
+      const requiredLength = field.errors ? field.errors['maxLength'].requiredLength : 100;
+
+      return `Deve ter no máximo ${requiredLength} caracteres`;
+    }
+
+    return 'Campo Obrigatório';
   }
 
   private onSuccess() {
