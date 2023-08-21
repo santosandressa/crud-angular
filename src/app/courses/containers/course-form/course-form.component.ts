@@ -43,7 +43,7 @@ export class CourseFormComponent implements OnInit {
         ],
       ],
       category: [course.category, [Validators.required]],
-      lessons: this.fb.array(this.retrieveLesson(course)),
+      lessons: this.fb.array(this.retrieveLesson(course), Validators.required),
     });
   }
 
@@ -62,10 +62,14 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.save(this.form.value).subscribe({
-      next: () => this.onSuccess(),
-      error: () => this.onError(),
-    });
+    if (this.form.valid) {
+      this.service.save(this.form.value).subscribe({
+        next: () => this.onSuccess(),
+        error: () => this.onError(),
+      });
+    } else {
+      alert('Formulário inválido')
+    }
   }
 
   onCancel() {
@@ -98,6 +102,11 @@ export class CourseFormComponent implements OnInit {
     return 'Campo Obrigatório';
   }
 
+  isFormArrayRequired() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    return lessons.invalid && lessons.hasError('required') && lessons.touched;
+  }
+
   private retrieveLesson(course: Course) {
     const lessons = [];
     if (course?.lessons) {
@@ -114,8 +123,13 @@ export class CourseFormComponent implements OnInit {
   private createLesson(lesson: Lesson = { id: '', name: '', urlVideo: '' }) {
     return this.fb.group({
       id: [lesson.id],
-      name: [lesson.name],
-      urlVideo: [lesson.urlVideo],
+      name: [lesson.name,
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100)
+        ]],
+      urlVideo: [lesson.urlVideo, [Validators.required]],
     });
   }
 
