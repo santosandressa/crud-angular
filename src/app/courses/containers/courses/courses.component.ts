@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
@@ -15,7 +15,7 @@ import { CoursesService } from 'src/app/shared/services/courses.service';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
@@ -33,7 +33,6 @@ export class CoursesComponent implements OnInit {
     this.refresh();
   }
 
-  ngOnInit(): void {}
 
   refresh() {
     this.courses$ = this.courseService.list().pipe(
