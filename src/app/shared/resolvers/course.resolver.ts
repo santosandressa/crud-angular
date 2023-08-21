@@ -22,5 +22,6 @@ export const courseResolver: ResolveFn<Course> = (
     _id: '',
     name: '',
     category: '',
+    lessons: [],
   });
 };
