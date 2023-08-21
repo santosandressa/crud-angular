@@ -3,6 +3,16 @@ mat-card {
   margin: 2em auto;
 }
 
+.main-container{
+ &__toolbar-lesson {
+  margin-top: 10px
+ }
+}
+
+mat-error {
+  font-size: 11px;
+}
+
 .full-width {
   margin-top: 1em;
   width: 100%;
