@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Course } from 'src/app/shared/models/course.model';
 import { Lesson } from 'src/app/shared/models/lesson.model';
 import { CoursesService } from 'src/app/shared/services/courses.service';
+import { FormUtilsService } from 'src/app/shared/utils/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -23,7 +24,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class CourseFormComponent implements OnInit {
         error: () => this.onError(),
       });
     } else {
-      alert('Formulário inválido')
+      this.formUtils.validateAllFormsFields(this.form);
     }
   }
 
