@@ -76,37 +76,6 @@ export class CourseFormComponent implements OnInit {
     this.location.back();
   }
 
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-
-    if (field?.hasError('required')) {
-      return 'Campo Obrigatório';
-    }
-
-    if (field?.hasError('minlength')) {
-      const requiredLength = field.errors
-        ? field.errors['minlength'].requiredLength
-        : 5;
-
-      return `Deve ter no mínimo ${requiredLength} caracteres`;
-    }
-
-    if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors
-        ? field.errors['maxLength'].requiredLength
-        : 100;
-
-      return `Deve ter no máximo ${requiredLength} caracteres`;
-    }
-
-    return 'Campo Obrigatório';
-  }
-
-  isFormArrayRequired() {
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return lessons.invalid && lessons.hasError('required') && lessons.touched;
-  }
-
   private retrieveLesson(course: Course) {
     const lessons = [];
     if (course?.lessons) {
