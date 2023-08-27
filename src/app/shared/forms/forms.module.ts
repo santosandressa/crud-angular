@@ -3,8 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
-  exports: [
-    ReactiveFormsModule,
-  ]
+  exports: [ReactiveFormsModule],
 })
-export class FormsModule { }
+export class FormsModule {}

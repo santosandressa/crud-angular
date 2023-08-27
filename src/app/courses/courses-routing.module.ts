@@ -8,22 +8,22 @@ import { CoursesComponent } from './containers/courses/courses.component';
 const routes: Routes = [
   {
     path: '',
-    component: CoursesComponent
+    component: CoursesComponent,
   },
   {
     path: 'new',
     component: CourseFormComponent,
-    resolve: { course: courseResolver}
+    resolve: { course: courseResolver },
   },
   {
     path: 'edit/:id',
     component: CourseFormComponent,
-    resolve: { course: courseResolver}
-  }
+    resolve: { course: courseResolver },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CoursesRoutingModule { }
+export class CoursesRoutingModule {}
