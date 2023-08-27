@@ -5,8 +5,6 @@ import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular
   providedIn: 'root',
 })
 export class FormUtilsService {
-  constructor() {}
-
   getErrorMessage(formGroup: UntypedFormGroup, fieldName: string) {
     const field = formGroup.get(fieldName) as UntypedFormControl;
 
@@ -19,17 +17,13 @@ export class FormUtilsService {
     }
 
     if (field?.hasError('minlength')) {
-      const requiredLength = field.errors
-        ? field.errors['minlength'].requiredLength
-        : 5;
+      const requiredLength = field.errors ? field.errors['minlength'].requiredLength : 5;
 
       return `Deve ter no mínimo ${requiredLength} caracteres`;
     }
 
     if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors
-        ? field.errors['maxLength'].requiredLength
-        : 100;
+      const requiredLength = field.errors ? field.errors['maxLength'].requiredLength : 100;
 
       return `Deve ter no máximo ${requiredLength} caracteres`;
     }
@@ -37,13 +31,15 @@ export class FormUtilsService {
     return 'Campo Obrigatório';
   }
 
-  getFormArrayFieldErrorMessage(formGroup: UntypedFormGroup, formArrayName: string,
-    fieldName: string, index: number) {
+  getFormArrayFieldErrorMessage(
+    formGroup: UntypedFormGroup,
+    formArrayName: string,
+    fieldName: string,
+    index: number,
+  ) {
     const formArray = formGroup.get(formArrayName) as UntypedFormArray;
 
-    const field = formArray.controls[index].get(
-      fieldName
-    ) as UntypedFormControl;
+    const field = formArray.controls[index].get(fieldName) as UntypedFormControl;
 
     return this.getErrorMessageFromField(field);
   }
@@ -54,7 +50,7 @@ export class FormUtilsService {
   }
 
   validateAllFormsFields(formGroup: UntypedFormGroup | UntypedFormArray) {
-    Object.keys(formGroup.controls).forEach((field) => {
+    Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
       if (control instanceof UntypedFormControl) {
         control.markAsTouched({ onlySelf: true });

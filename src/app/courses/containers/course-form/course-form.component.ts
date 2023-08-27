@@ -14,7 +14,6 @@ import { FormUtilsService } from 'src/app/shared/utils/form-utils.service';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-
   form!: FormGroup;
 
   categories = [null, 'front-end', 'back-end', 'dev-ops', 'mobile'];
@@ -25,7 +24,7 @@ export class CourseFormComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private location: Location,
     private route: ActivatedRoute,
-    public formUtils: FormUtilsService
+    public formUtils: FormUtilsService,
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +37,7 @@ export class CourseFormComponent implements OnInit {
       _id: [course._id],
       name: [
         course.name,
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(100),
-        ],
+        [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
       ],
       category: [course.category, [Validators.required]],
       lessons: this.fb.array(this.retrieveLesson(course), Validators.required),
@@ -81,9 +76,7 @@ export class CourseFormComponent implements OnInit {
   private retrieveLesson(course: Course) {
     const lessons = [];
     if (course?.lessons) {
-      course.lessons.forEach((lesson) =>
-        lessons.push(this.createLesson(lesson))
-      );
+      course.lessons.forEach(lesson => lessons.push(this.createLesson(lesson)));
     } else {
       lessons.push(this.createLesson());
     }
@@ -94,12 +87,10 @@ export class CourseFormComponent implements OnInit {
   private createLesson(lesson: Lesson = { id: '', name: '', urlVideo: '' }) {
     return this.fb.group({
       id: [lesson.id],
-      name: [lesson.name,
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(100)
-        ]],
+      name: [
+        lesson.name,
+        [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
+      ],
       urlVideo: [lesson.urlVideo, [Validators.required]],
     });
   }

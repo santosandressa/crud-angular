@@ -17,10 +17,13 @@ import { CoursesService } from 'src/app/shared/services/courses.service';
 })
 export class CoursesComponent {
   color: ThemePalette = 'primary';
+
   mode: ProgressSpinnerMode = 'indeterminate';
+
   value = 50;
 
   courses$: Observable<Course[]> | null = null;
+
   displayedColumns = ['name', 'category', 'add'];
 
   constructor(
@@ -28,18 +31,17 @@ export class CoursesComponent {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
   ) {
     this.refresh();
   }
 
-
   refresh() {
     this.courses$ = this.courseService.list().pipe(
-      catchError((error) => {
+      catchError(() => {
         this.onError('Erro ao carregar cursos');
         return of([]);
-      })
+      }),
     );
   }
 
@@ -62,14 +64,14 @@ export class CoursesComponent {
       data: 'Tem certeza que deseja remover o curso?',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.courseService.remove(course._id).subscribe(
           () => {
             this.refresh();
             this.onSuccess();
           },
-          () => this.onError('Erro ao remover curso')
+          () => this.onError('Erro ao remover curso'),
         );
       }
     });
