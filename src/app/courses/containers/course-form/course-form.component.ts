@@ -5,8 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from 'src/app/shared/models/course.model';
 import { Lesson } from 'src/app/shared/models/lesson.model';
-import { CoursesService } from 'src/app/shared/services/courses.service';
-import { FormUtilsService } from 'src/app/shared/utils/form-utils.service';
+
+import { CoursesService } from '../../../shared/services/courses.service';
+import { FormUtilsService } from '../../../shared/utils/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -34,12 +35,12 @@ export class CourseFormComponent implements OnInit {
   initForm() {
     const course: Course = this.route.snapshot.data['course'];
     this.form = this.fb.group({
-      _id: [course._id],
+      _id: [course?._id],
       name: [
-        course.name,
+        course?.name,
         [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
       ],
-      category: [course.category, [Validators.required]],
+      category: [course?.category, [Validators.required]],
       lessons: this.fb.array(this.retrieveLesson(course), Validators.required),
     });
   }

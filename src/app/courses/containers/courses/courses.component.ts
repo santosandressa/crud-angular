@@ -4,11 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ErrorDialogComponent } from '@shared/components/error-dialog/error-dialog.component';
 import { catchError, Observable, of } from 'rxjs';
-import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { Course } from 'src/app/shared/models/course.model';
-import { CoursesService } from 'src/app/shared/services/courses.service';
+import { CoursesService } from '../../../shared/services/courses.service';
 
 @Component({
   selector: 'app-courses',
